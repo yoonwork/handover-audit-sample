@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>인수·검수 보고서 샘플</title>
+<meta name="description" content="AI로 작성된 NestJS·Prisma 웹을 넘겨받을 때 1주차에 드리는 인수·검수 보고서의 예시 형식이에요.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23191F28'/%3E%3Cpath d='M9 16.5l4.5 4.5L23 11.5' stroke='%23fff' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style id="tokens">
+:root{
+  color-scheme: light;
+  --brand:#2457F5; --brand-hover:#1B45D6; --brand-press:#1638B0; --brand-text:#1B45D6;
+  --brand-tint:#EEF3FF; --brand-tint-2:#D9E4FF; --ring:0 0 0 3px rgba(36,87,245,.25); --on-brand:#FFFFFF;
+  --bg:#F2F4F7; --card:#FFFFFF; --soft:#F7F8FA; --track:#ECEFF3; --line:#E5E8EB; --line-2:#EBEEF2;
+  --ink:#191F28; --ink-2:#4E5968; --mut:#636D7B; --mut-2:#9AA3AE;
+  --ok:#127A4F; --ok-bg:#E3F6ED; --ok-dot:#1FA971;
+  --warn:#7A5600; --warn-bg:#FFF3D4; --warn-dot:#F2B01E;
+  --bad:#BF2930; --bad-bg:#FFE3E4; --bad-dot:#E5484D;
+  --info:#175CD3; --info-bg:#EAF2FF; --info-dot:#2E7CF6;
+  --neu:#4E5968; --neu-bg:#F0F2F5; --neu-dot:#8B95A1;
+  --font:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r-sm:8px; --r-md:12px; --r-lg:20px; --r-xl:28px; --r-pill:999px;
+  --sh-pill:0 1px 2px rgba(16,24,40,.08);
+  --container:1120px;
+}
+</style>
+<style>
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.6;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p,ul,ol,dl,dd{margin:0}
+ul,ol{padding:0;list-style:none}
+code,.mono{font-family:var(--mono);font-size:12px}
+code{background:var(--soft);border:1px solid var(--line-2);border-radius:6px;padding:1px 6px;color:var(--ink-2);word-break:break-all}
+.num{font-variant-numeric:tabular-nums}
+.unit{font-size:.62em;color:var(--mut);font-weight:500;margin-left:2px}
+
+.band{background:var(--ink);color:#fff;font-size:13px;line-height:1.5;padding:10px 24px;text-align:center}
+.band b{font-weight:600}
+.wrap{max-width:var(--container);margin:0 auto;padding:0 24px}
+
+/* 머리 */
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding:40px 0 28px}
+.kicker{font-size:14px;font-weight:600;color:var(--mut);margin-bottom:8px}
+h1{font-size:32px;line-height:1.25;letter-spacing:-.025em;font-weight:700;max-width:640px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 24px;margin-top:16px;font-size:13px;color:var(--mut)}
+.meta div{display:flex;gap:8px}
+.meta dt{color:var(--mut)}
+.meta dd{color:var(--ink-2);font-weight:500}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 20px;border-radius:var(--r-pill);border:1px solid var(--line);background:var(--card);color:var(--ink);font:600 14px/1 var(--font);cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s}
+.btn:hover{background:var(--soft)}
+.btn:focus-visible{outline:none;box-shadow:var(--ring)}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.btn.primary:hover{background:var(--brand-hover);border-color:var(--brand-hover)}
+.btn.primary:active{background:var(--brand-press)}
+.btn svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* 그리드와 카드 */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-bottom:16px}
+.s4{grid-column:span 4}.s5{grid-column:span 5}.s7{grid-column:span 7}.s8{grid-column:span 8}.s12{grid-column:span 12}
+.card{background:var(--card);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:24px}
+.card.tint{background:var(--brand-tint);border-color:var(--brand-tint-2);display:flex;flex-direction:column}
+.card.tint .scale{margin-top:auto;padding-top:24px}
+.top{align-self:start}
+.sec{margin-top:48px}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:16px}
+h2{font-size:24px;line-height:1.3;letter-spacing:-.02em;font-weight:700}
+.sec-desc{font-size:14px;color:var(--mut);margin-top:4px;max-width:680px}
+h3{font-size:17px;font-weight:600;line-height:1.4}
+.label{font-size:13px;color:var(--mut);font-weight:500}
+
+/* 요약 */
+.verdict-big{font-size:32px;font-weight:700;letter-spacing:-.025em;line-height:1.25;margin-top:8px}
+.verdict-sub{font-size:15px;color:var(--ink-2);margin-top:8px;max-width:560px}
+.scale{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.step{background:rgba(255,255,255,.7);border:1px solid var(--brand-tint-2);border-radius:var(--r-md);padding:12px 14px}
+.step b{display:block;font-size:14px;font-weight:600;color:var(--ink-2)}
+.step span{display:block;font-size:12px;color:var(--mut);line-height:1.5;margin-top:4px}
+.step.on{background:var(--brand);border-color:var(--brand)}
+.step.on b,.step.on span{color:#fff}
+.step.on b::after{content:" · 지금 판정";font-weight:500;font-size:12px;opacity:.9}
+
+.big-num{font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-top:8px}
+.side-sub{font-size:14px;color:var(--ink-2);margin-top:4px}
+.sevlist{margin-top:20px;border-top:1px solid var(--line-2)}
+.sevlist li{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line-2);font-size:14px}
+.sevlist li:last-child{border-bottom:0}
+.sevlist .n{font-weight:600}
+
+/* 칩 */
+.chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:var(--r-pill);font-size:12px;font-weight:600;white-space:nowrap}
+.chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.sev-crit{color:var(--bad);background:var(--bad-bg)}.sev-crit::before{background:var(--bad-dot)}
+.sev-high{color:var(--warn);background:var(--warn-bg)}.sev-high::before{background:var(--warn-dot)}
+.sev-mid{color:var(--info);background:var(--info-bg)}.sev-mid::before{background:var(--info-dot)}
+.sev-low{color:var(--neu);background:var(--neu-bg)}.sev-low::before{background:var(--neu-dot)}
+.chip.ok{color:var(--ok);background:var(--ok-bg)}.chip.ok::before{background:var(--ok-dot)}
+.when{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:var(--r-pill);border:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
+.when.must{border-color:var(--ink);color:var(--ink)}
+
+/* 일주일 */
+.week{margin-top:8px}
+.day{display:grid;grid-template-columns:36px 148px 1fr;gap:12px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line-2)}
+.day:last-child{border-bottom:0;padding-bottom:0}
+.day .d{width:32px;height:32px;border-radius:50%;background:var(--soft);border:1px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:600;color:var(--ink-2);align-self:center}
+.day b{font-size:14px;font-weight:600}
+.day p{font-size:14px;color:var(--ink-2);line-height:1.55}
+.day.fri .d{background:var(--ink);border-color:var(--ink);color:#fff}
+
+/* 표 공통 */
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{background:var(--soft);color:var(--mut);font-size:13px;font-weight:500;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:12px;border-bottom:1px solid var(--line-2);vertical-align:top}
+.tbl tr:last-child td{border-bottom:0}
+.tbl .r{text-align:right}
+.tbl-wrap{border:1px solid var(--line-2);border-radius:var(--r-md);overflow:hidden;margin-top:16px}
+
+/* 체크리스트 */
+.ck{display:grid;grid-template-columns:150px 1.45fr 1fr .85fr 128px;gap:0}
+.ck-h,.ck-r>div{padding:14px 16px}
+.ck-h{background:var(--soft);color:var(--mut);font-size:13px;font-weight:500;border-bottom:1px solid var(--line)}
+.ck-r{display:contents}
+.ck-r>div{border-bottom:1px solid var(--line-2);font-size:14px}
+.ck-r:last-child>div{border-bottom:0}
+.ck-area b{display:block;font-weight:600}
+.ck-area span{display:block;font-size:12px;color:var(--mut);margin-top:2px}
+.ck-items li{position:relative;padding-left:14px;margin-bottom:4px;color:var(--ink)}
+.ck-items li:last-child{margin-bottom:0}
+.ck-items li::before{content:"";position:absolute;left:0;top:10px;width:5px;height:5px;border-radius:50%;background:var(--mut-2)}
+.ck-why{color:var(--ink-2)}
+.ck-how{color:var(--ink-2);font-size:13px !important}
+.ck-res{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.mlabel{display:none}
+
+/* 발견 사항 */
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.fchip{height:44px;padding:0 16px;border-radius:var(--r-pill);border:1px solid var(--line);background:var(--card);color:var(--ink-2);font:500 14px/1 var(--font);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.fchip .c{color:var(--mut);font-variant-numeric:tabular-nums}
+.fchip:hover{background:var(--soft)}
+.fchip:focus-visible{outline:none;box-shadow:var(--ring)}
+.fchip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.fchip[aria-pressed="true"] .c{color:rgba(255,255,255,.75)}
+.fcount{font-size:13px;color:var(--mut);margin-top:12px}
+.flist{margin-top:12px;background:var(--card);border:1px solid var(--line-2);border-radius:var(--r-lg);overflow:hidden}
+.f-row{display:grid;grid-template-columns:104px minmax(0,1.5fr) 84px minmax(0,1.2fr) 60px 104px;gap:16px;padding:18px 20px;border-bottom:1px solid var(--line-2);align-items:start}
+.f-row:last-child{border-bottom:0}
+.f-head{background:var(--soft);color:var(--mut);font-size:13px;font-weight:500;padding-top:12px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.f-id .mono{font-size:13px;font-weight:600;color:var(--ink)}
+.f-id span:last-child{display:block;font-size:12px;color:var(--mut);margin-top:2px}
+.f-title{font-weight:600;font-size:15px;line-height:1.45}
+.f-detail{font-size:14px;color:var(--ink-2);margin-top:4px}
+.f-loc{margin-top:8px}
+.f-fix{font-size:14px;color:var(--ink-2)}
+.f-cost{text-align:right;font-weight:600;font-size:17px}
+.f-cost .unit{font-size:12px}
+.f-empty{padding:40px 20px;text-align:center;color:var(--mut);font-size:14px}
+
+/* 범례 */
+.legend{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line-2);border-radius:var(--r-md);overflow:hidden;background:var(--card)}
+.legend>div{padding:14px 16px;border-right:1px solid var(--line-2)}
+.legend>div:last-child{border-right:0}
+.legend p{font-size:13px;color:var(--ink-2);margin-top:8px;line-height:1.5}
+.legend .t{font-size:12px;color:var(--mut);margin-top:6px}
+
+/* 우선순위 */
+.prio li{padding:16px 0;border-bottom:1px solid var(--line-2)}
+.prio li:first-child{padding-top:4px}
+.prio li:last-child{border-bottom:0;padding-bottom:0}
+.prio-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.prio-top b{font-size:15px;font-weight:600}
+.prio-top .num{font-size:20px;font-weight:700}
+.bar{height:10px;border-radius:var(--r-pill);background:var(--track);margin-top:10px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:var(--r-pill);background:var(--brand-tint-2)}
+.bar.main i{background:var(--brand)}
+.prio p{font-size:13px;color:var(--mut);margin-top:8px}
+.order{margin-top:4px}
+.order li{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-2);font-size:14px}
+.order li:last-child{border-bottom:0}
+.order .k{width:28px;height:28px;border-radius:50%;background:var(--soft);border:1px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:600;color:var(--ink-2)}
+.order small{display:block;color:var(--mut);font-size:13px;margin-top:2px}
+.note{font-size:13px;color:var(--mut);margin-top:16px;padding-top:16px;border-top:1px solid var(--line-2)}
+
+/* 결정 */
+.ask li{padding:14px 0;border-bottom:1px solid var(--line-2)}
+.ask li:first-child{padding-top:0}
+.ask li:last-child{border-bottom:0;padding-bottom:0}
+.ask b{display:block;font-size:15px;font-weight:600}
+.ask p{font-size:14px;color:var(--ink-2);margin-top:4px}
+
+.foot{margin:48px 0 0;padding:24px 0 56px;border-top:1px solid var(--line);font-size:13px;color:var(--mut);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* 휴대폰 */
+@media screen and (max-width:960px){
+  .s4,.s5,.s7,.s8{grid-column:span 12}
+  .ck{grid-template-columns:150px 1fr 1fr}
+  .ck-h:nth-child(4),.ck-h:nth-child(5){display:none}
+}
+@media screen and (max-width:760px){
+  body{font-size:15px}
+  .band{padding:10px 16px;text-align:left}
+  .wrap{padding:0 16px}
+  .head{flex-direction:column;align-items:stretch;padding:28px 0 20px;gap:20px}
+  h1{font-size:24px}
+  .meta{gap:6px 16px}
+  .btn.primary{width:100%;height:52px;font-size:15px}
+  .grid{gap:12px;margin-bottom:12px}
+  .card{padding:20px}
+  .sec{margin-top:40px}
+  .sec-head{flex-direction:column;align-items:flex-start}
+  h2{font-size:22px}
+  .verdict-big{font-size:24px}
+  .big-num{font-size:32px}
+  .scale{grid-template-columns:1fr 1fr}
+  .day{grid-template-columns:32px 1fr;gap:2px 12px;align-items:start}
+  .day .d{grid-row:span 2;align-self:start}
+  .day p{grid-column:2;font-size:13px}
+  .tbl.rt thead{display:none}
+  .tbl.rt tr{display:block;padding:14px 16px;border-bottom:1px solid var(--line-2)}
+  .tbl.rt tr:last-child{border-bottom:0}
+  .tbl.rt td{display:block;padding:0;border:0}
+  .tbl.rt td+td{margin-top:4px}
+  .tbl.rt td:first-child{font-weight:600}
+  .tbl.rt .r{text-align:left}
+  .tbl.rt td[data-l]::before{content:attr(data-l) " ";color:var(--mut);font-size:13px}
+  .ck{display:block}
+  .ck-h{display:none}
+  .ck-r{display:block;padding:16px;border-bottom:1px solid var(--line-2)}
+  .ck-r:last-child{border-bottom:0}
+  .ck-r>div{padding:0;border:0}
+  .ck-r>div+div{margin-top:10px}
+  .mlabel{display:block;font-size:12px;font-weight:600;color:var(--mut);margin-bottom:2px}
+  .ck-res{flex-direction:row;flex-wrap:wrap}
+  .filters{flex-wrap:nowrap;overflow-x:auto;margin:0 -16px;padding:0 16px 4px;scrollbar-width:none}
+  .filters::-webkit-scrollbar{display:none}
+  .fchip{flex:0 0 auto}
+  .f-head{display:none}
+  .f-row{grid-template-columns:1fr auto;gap:8px 12px;padding:16px}
+  .f-id{grid-column:1;display:flex;gap:8px;align-items:baseline}
+  .f-id span:last-child{margin-top:0}
+  .f-sev{grid-column:2;grid-row:1;justify-self:end}
+  .f-main,.f-fix{grid-column:1 / -1}
+  .f-fix{background:var(--soft);border-radius:var(--r-md);padding:12px}
+  .f-fix::before{content:"고치는 방법";display:block;font-size:12px;font-weight:600;color:var(--mut);margin-bottom:2px}
+  .f-cost{grid-column:2;grid-row:4;text-align:right;align-self:center}
+  .f-when{grid-column:1;grid-row:4;align-self:center}
+  .legend{grid-template-columns:1fr 1fr}
+  .legend>div:nth-child(2){border-right:0}
+  .legend>div:nth-child(-n+2){border-bottom:1px solid var(--line-2)}
+  .foot{flex-direction:column;padding-bottom:40px}
+}
+
+/* 인쇄·PDF */
+@page{size:A4;margin:12mm 11mm}
+@media print{
+  html,body{background:#fff;font-size:12px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wrap{max-width:none;padding:0}
+  .band{font-size:11px;padding:7px 12px;border-radius:8px;text-align:left}
+  .no-print{display:none !important}
+  .head{padding:18px 0 14px}
+  h1{font-size:24px}
+  .meta{font-size:11px;margin-top:10px}
+  .grid{gap:10px;margin-bottom:10px}
+  .card{padding:16px;break-inside:avoid;border-color:var(--line)}
+  .sec{margin-top:22px}
+  h2{font-size:18px}
+  .sec-desc{font-size:11.5px}
+  h3{font-size:14px}
+  .verdict-big{font-size:22px}
+  .verdict-sub{font-size:12px}
+  .big-num{font-size:30px}
+  .scale{margin-top:14px}
+  .step span{font-size:10.5px}
+  .step b{font-size:12px}
+  .sevlist li{font-size:12px;padding:6px 0}
+  .day{grid-template-columns:26px 112px 1fr;gap:8px;padding:6px 0}
+  .day .d{width:24px;height:24px;font-size:10.5px}
+  .day p,.legend p{font-size:11px}
+  .day b{font-size:12px}
+  .tbl{font-size:11.5px}
+  .tbl th{font-size:11px;padding:7px 10px}
+  .tbl td{padding:8px 10px}
+  .ck{grid-template-columns:110px 1.45fr 1fr .9fr 92px}
+  .ck-h,.ck-r>div{padding:8px 10px;font-size:11px}
+  .ck-r>div{break-inside:avoid}
+  .ck-items li::before{top:7px}
+  .chip{height:20px;font-size:10.5px;padding:0 8px}
+  .when{font-size:10.5px;padding:2px 8px}
+  .flist{border-radius:12px}
+  .f-row{grid-template-columns:70px minmax(0,1.5fr) 62px minmax(0,1.2fr) 40px 80px;gap:10px;padding:10px 12px;break-inside:avoid}
+  .f-row[hidden]{display:grid !important}
+  .f-title{font-size:12px}
+  .f-detail,.f-fix{font-size:11px}
+  .f-cost{font-size:13px}
+  code,.mono{font-size:10px}
+  .f-id .mono{font-size:11px}
+  .prio-top b{font-size:12.5px}
+  .prio-top .num{font-size:15px}
+  .order li,.ask p{font-size:11.5px}
+  .ask b{font-size:12.5px}
+  .tbl-wrap,.week,.flist,.card.ck-card{break-inside:auto}
+  .legend{break-inside:avoid}
+  section[aria-labelledby="ck-h"]{break-before:page;margin-top:0}
+  .ck-how{font-size:11px !important}
+  .side-sub,.note,.prio p,.order small,.fcount{font-size:10.5px}
+  .order li{padding:8px 0}
+  .order .k{width:22px;height:22px;font-size:10.5px}
+  .ck-area span{font-size:10.5px}
+  .sec-head{break-after:avoid}
+  .foot{margin-top:20px;padding:12px 0 0;font-size:10.5px}
+}
+</style>
+</head>
+<body>
+
+<div class="band" role="note"><b>제안용 샘플 · 예시 형식</b> — 실제 코드를 받기 전에 만든 견본이에요. 판정, 발견 사항, 파일 위치, 숫자는 모두 가상이에요. 버전 지원 날짜처럼 출처를 적은 것만 실제로 확인한 사실이에요.</div>
+
+<main class="wrap">
+
+  <header class="head">
+    <div>
+      <p class="kicker">1주차 인수·검수 보고서</p>
+      <h1>현장 서비스 관리 웹, 이대로 넘겨받아도 될까요</h1>
+      <dl class="meta">
+        <div><dt>대상</dt><dd>공간향기 B2B 현장 서비스 관리 웹</dd></div>
+        <div><dt>기술</dt><dd>React 18 · NestJS 10 · Prisma 6 · PostgreSQL 17</dd></div>
+        <div><dt>검토 기간</dt><dd>착수 1주차 (월~금)</dd></div>
+        <div><dt>범위</dt><dd>화면 46개 · API 전체 · 테이블 73개 · 자체 시험 143건</dd></div>
+        <div><dt>작성</dt><dd>제이에스 오퍼레이션</dd></div>
+      </dl>
+    </div>
+    <button class="btn primary no-print" id="printBtn" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>
+      PDF로 저장하기
+    </button>
+  </header>
+
+  <!-- 요약 -->
+  <section aria-labelledby="sum-h">
+    <h2 id="sum-h" class="sr" hidden>요약</h2>
+    <div class="grid">
+      <div class="card tint s8">
+        <p class="label">판정 (예시)</p>
+        <p class="verdict-big">보완하면 그대로 넘겨받을 수 있어요</p>
+        <p class="verdict-sub">다시 짤 필요는 없어 보여요. 문제는 설정과 일부 파일에 몰려 있어요. 다만 키 관리와 로그인 토큰은 서버에 올리기 전에 꼭 고쳐야 해요.</p>
+        <div class="scale" role="list" aria-label="판정 단계">
+          <div class="step" role="listitem"><b>그대로 인수</b><span>치명·높음 0건, 설명서대로 새 서버에 바로 설치됨</span></div>
+          <div class="step on" role="listitem" aria-current="true"><b>보완 후 인수</b><span>제안 범위 안에서 고칠 수 있는 문제만 있음</span></div>
+          <div class="step" role="listitem"><b>일부 다시 짜기</b><span>한 기능은 고치기보다 새로 짜는 게 빠름, 따로 협의</span></div>
+          <div class="step" role="listitem"><b>전면 다시 짜기</b><span>DB 설계가 업무 흐름과 맞지 않음</span></div>
+        </div>
+      </div>
+      <div class="card s4">
+        <p class="label">오픈 전에 꼭 고칠 것</p>
+        <p class="big-num num">6<span class="unit">일</span></p>
+        <p class="side-sub">8건 · 제안서 ②③ 범위 안이에요</p>
+        <ul class="sevlist">
+          <li><span class="chip sev-crit">치명</span><span class="n num">2건</span></li>
+          <li><span class="chip sev-high">높음</span><span class="n num">5건</span></li>
+          <li><span class="chip sev-mid">중간</span><span class="n num">5건</span></li>
+          <li><span class="chip sev-low">낮음</span><span class="n num">2건</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 확인 방법 -->
+  <section class="sec" aria-labelledby="how-h">
+    <div class="sec-head">
+      <div>
+        <h2 id="how-h">이렇게 확인했어요</h2>
+        <p class="sec-desc">받은 설명서만 보고 새 서버에 처음부터 설치해 보는 데서 시작해요. 개발 PC에서 되는 것과 서버에서 되는 것은 달라서요.</p>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card s7">
+        <h3>1주차 5일</h3>
+        <div class="week">
+          <div class="day"><span class="d">월</span><b>처음부터 설치해 보기</b><p>인계서만 보고 새 서버에 설치·빌드하고, 빈 DB에 구조를 만들어요.</p></div>
+          <div class="day"><span class="d">화</span><b>자동 검사</b><p>시험 143건 다시 실행, 의존성 취약점, 키 노출, 보안 규칙 검사.</p></div>
+          <div class="day"><span class="d">수</span><b>직접 읽기</b><p>로그인·토큰·암호화 코드를 읽고, 5개 팀 권한표와 API를 맞춰 봐요.</p></div>
+          <div class="day"><span class="d">목</span><b>데이터 넣어 보기</b><p>가짜 데이터 1만 건으로 화면별 쿼리 수와 응답 시간을 재요.</p></div>
+          <div class="day fri"><span class="d">금</span><b>보고서와 설명</b><p>이 보고서를 드리고 영등포에서 1시간 설명, 2주차 계획을 정해요.</p></div>
+        </div>
+      </div>
+      <div class="card s5">
+        <h3>통과했다던 시험, 다시 돌려 봤어요</h3>
+        <div class="tbl-wrap">
+          <table class="tbl rt">
+            <thead><tr><th>시험</th><th class="r">받은 결과</th><th class="r">다시 돌린 결과</th></tr></thead>
+            <tbody>
+              <tr><td>백엔드 시나리오</td><td class="r num" data-l="받은 결과">83 통과</td><td class="r num" data-l="다시 돌린 결과">79 통과 · 4 실패</td></tr>
+              <tr><td>API 연결</td><td class="r num" data-l="받은 결과">60 통과</td><td class="r num" data-l="다시 돌린 결과">60 통과</td></tr>
+              <tr><td>화면 시험</td><td class="r" data-l="받은 결과">통과</td><td class="r" data-l="다시 돌린 결과">패드 1대 확인</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note" style="margin-top:12px;padding-top:12px">백엔드 시험 83건 중 52건이 실제 DB 대신 가짜(mock)를 쓰고 있었어요. 실제 DB로 바꿔 돌리니 4건이 실패했어요. AI가 시험을 통과시키려고 가짜를 넣는 일이 흔해서 꼭 봐요. (예시)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 체크리스트 -->
+  <section class="sec" aria-labelledby="ck-h">
+    <div class="sec-head">
+      <div>
+        <h2 id="ck-h">AI가 쓴 NestJS·Prisma 코드에서 꼭 보는 8가지</h2>
+        <p class="sec-desc">저도 AI 개발 도구로 일해서, AI가 어디서 자주 빠뜨리는지 알아요. 화면에서 잘 돌아가도 아래 8가지는 따로 확인해요.</p>
+      </div>
+    </div>
+    <div class="card ck-card" style="padding:0;overflow:hidden">
+      <div class="ck" role="table" aria-label="점검 항목">
+        <div class="ck-h" role="columnheader">영역</div>
+        <div class="ck-h" role="columnheader">무엇을 보나</div>
+        <div class="ck-h" role="columnheader">AI 코드에서 잘 생기는 이유</div>
+        <div class="ck-h" role="columnheader">확인 방법</div>
+        <div class="ck-h" role="columnheader">결과 (예시)</div>
+
+        <div class="ck-r" role="row">
+          <div class="ck-area"><b>보안 기본</b><span>로그인·권한·입력 검사</span></div>
+          <div><span class="mlabel">무엇을 보나</span><ul class="ck-items"><li>모든 API에 로그인 확인이 걸려 있는지</li><li>5개 팀 권한표대로 막히는지</li><li>모르는 칸(예: role)을 몰래 보내도 버리는지</li><li>로그인 시도 횟수 제한</li></ul></div>
+          <div class="ck-why"><span class="mlabel">AI 코드에서 잘 생기는 이유</span>화면에 버튼이 없는 API는 막는 걸 자주 빠뜨려요. 화면 시험으로는 드러나지 않아요.</div>
+          <div class="ck-how"><span class="mlabel">확인 방법</span>팀별 시험 계정으로 API를 하나씩 직접 호출</div>
+          <div class="ck-res"><span class="chip sev-high">높음 2</span></div>
+        </div>
+
+        <div class="ck-r" role="row">
+          <div class="ck-area"><b>환경변수·키</b><span>암호화 키, 비밀번호</span></div>
+          <div><span class="mlabel">무엇을 보나</span><ul class="ck-items"><li>코드와 저장소 기록(git)에 키가 남았는지</li><li>키가 없을 때 기본값으로 켜지지 않는지</li><li>같은 값이 늘 같은 암호문이 되지 않는지</li><li>키를 바꾸는 방법이 있는지</li></ul></div>
+          <div class="ck-why"><span class="mlabel">AI 코드에서 잘 생기는 이유</span>오류를 물어보며 .env를 통째로 붙여 넣는 일이 많아, 개발용 키가 여기저기 남아요.</div>
+          <div class="ck-how"><span class="mlabel">확인 방법</span>저장소 전체 기록 키 검사, 암호화 함수 직접 읽기</div>
+          <div class="ck-res"><span class="chip sev-crit">치명 1</span></div>
+        </div>
+
+        <div class="ck-r" role="row">
+          <div class="ck-area"><b>로그인 토큰</b><span>JWT 방식</span></div>
+          <div><span class="mlabel">무엇을 보나</span><ul class="ck-items"><li>토큰 유효 시간과 저장 위치</li><li>로그아웃·퇴사 때 바로 막히는지</li><li>비밀번호를 바꾸면 다른 기기가 끊기는지</li></ul></div>
+          <div class="ck-why"><span class="mlabel">AI 코드에서 잘 생기는 이유</span>예제처럼 '오래 가는 토큰 하나'로 끝내는 경우가 많아요.</div>
+          <div class="ck-how"><span class="mlabel">확인 방법</span>토큰을 꺼내 만료·폐기 동작을 직접 시험</div>
+          <div class="ck-res"><span class="chip sev-crit">치명 1</span><span class="chip sev-high">높음 1</span></div>
+        </div>
+
+        <div class="ck-r" role="row">
+          <div class="ck-area"><b>CORS·배포 설정</b><span>운영 모드</span></div>
+          <div><span class="mlabel">무엇을 보나</span><ul class="ck-items"><li>모든 주소 허용 + 쿠키 허용인지</li><li>개발 서버(vite dev, start:dev)로 돌고 있지 않은지</li><li>API 문서 화면이 운영에 열려 있지 않은지</li><li>보안 헤더</li></ul></div>
+          <div class="ck-why"><span class="mlabel">AI 코드에서 잘 생기는 이유</span>패드에서 같은 와이파이로 접속 시험을 하려고 '모두 허용'으로 풀어 둔 채 남기 쉬워요.</div>
+          <div class="ck-how"><span class="mlabel">확인 방법</span>설정 파일 확인, 다른 주소에서 요청 보내 보기</div>
+          <div class="ck-res"><span class="chip sev-high">높음 1</span></div>
+        </div>
+
+        <div class="ck-r" role="row">
+          <div class="ck-area"><b>N+1 쿼리</b><span>느려지는 목록</span></div>
+          <div><span class="mlabel">무엇을 보나</span><ul class="ck-items"><li>반복문 안에서 DB를 한 건씩 부르는지</li><li>목록에 페이지 나누기가 있는지</li><li>관계 칸 인덱스</li><li>필요 없는 칸까지 다 가져오는지</li></ul></div>
+          <div class="ck-why"><span class="mlabel">AI 코드에서 잘 생기는 이유</span>데이터가 몇 건뿐인 개발 PC에서는 느린 게 보이지 않아요. 실제 데이터가 들어가야 드러나요.</div>
+          <div class="ck-how"><span class="mlabel">확인 방법</span>쿼리 기록을 켜고 화면마다 쿼리 수 세기</div>
+          <div class="ck-res"><span class="chip sev-mid">중간 2</span></div>
+        </div>
+
+        <div class="ck-r" role="row">
+          <div class="ck-area"><b>마이그레이션</b><span>DB 구조 변경 기록</span></div>
+          <div><span class="mlabel">무엇을 보나</span><ul class="ck-items"><li>기록과 실제 DB 구조가 같은지</li><li>빈 DB에서 한 번에 만들어지는지</li><li>db push·reset으로 맞춰 오지 않았는지</li><li>시드에 고정 관리자 비밀번호가 없는지</li></ul></div>
+          <div class="ck-why"><span class="mlabel">AI 코드에서 잘 생기는 이유</span>스키마 오류가 나면 DB를 지우고 다시 맞추는 방법을 자주 써요. 운영에서는 데이터가 지워져요.</div>
+          <div class="ck-how"><span class="mlabel">확인 방법</span>빈 DB에 migrate deploy, 구조 차이 비교</div>
+          <div class="ck-res"><span class="chip sev-mid">중간 1</span></div>
+        </div>
+
+        <div class="ck-r" role="row">
+          <div class="ck-area"><b>에러 처리·기록</b><span>오류 응답, 로그</span></div>
+          <div><span class="mlabel">무엇을 보나</span><ul class="ck-items"><li>DB 오류를 알맞은 문구로 바꾸는지</li><li>응답에 SQL·내부 경로가 보이지 않는지</li><li>로그에 전화번호·주소가 찍히지 않는지</li><li>개인정보 접속기록</li></ul></div>
+          <div class="ck-why"><span class="mlabel">AI 코드에서 잘 생기는 이유</span>파일마다 오류 처리 방식이 다르고, 디버깅하려고 요청 내용을 통째로 찍어 둔 줄이 남아요.</div>
+          <div class="ck-how"><span class="mlabel">확인 방법</span>일부러 틀린 값 보내기, 로그 파일 검색</div>
+          <div class="ck-res"><span class="chip sev-mid">중간 2</span></div>
+        </div>
+
+        <div class="ck-r" role="row">
+          <div class="ck-area"><b>의존성 취약점</b><span>Node·라이브러리 버전</span></div>
+          <div><span class="mlabel">무엇을 보나</span><ul class="ck-items"><li>알려진 취약점 (npm audit)</li><li>지원이 끝난 버전</li><li>없는 패키지나 이름이 비슷한 가짜 패키지</li><li>lock 파일로 같은 버전이 설치되는지</li></ul></div>
+          <div class="ck-why"><span class="mlabel">AI 코드에서 잘 생기는 이유</span>AI는 배운 시점의 버전을 써서 처음부터 오래된 버전일 때가 있어요. 없는 패키지 이름을 지어내기도 해요.</div>
+          <div class="ck-how"><span class="mlabel">확인 방법</span>npm audit, 패키지 실제 존재·다운로드 수 확인</div>
+          <div class="ck-res"><span class="chip sev-high">높음 1</span><span class="chip sev-low">낮음 1</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 발견 사항 -->
+  <section class="sec" aria-labelledby="f-h">
+    <div class="sec-head">
+      <div>
+        <h2 id="f-h">발견 사항 14건</h2>
+        <p class="sec-desc">모두 예시예요. 실제 보고서에는 파일·행 위치, 다시 일으키는 방법, 고친 뒤 확인한 결과가 함께 들어가요.</p>
+      </div>
+    </div>
+
+    <div class="legend" aria-label="심각도 기준">
+      <div><span class="chip sev-crit">치명</span><p>지금 바로 정보가 새거나, 남이 관리자처럼 쓸 수 있어요.</p><p class="t">발견한 날 바로 알리고, 오픈 전 반드시</p></div>
+      <div><span class="chip sev-high">높음</span><p>조건이 맞으면 정보가 새거나 서비스가 멈춰요.</p><p class="t">오픈 전 반드시</p></div>
+      <div><span class="chip sev-mid">중간</span><p>데이터가 쌓이면 느려지거나, 운영·법 기준에 못 미쳐요.</p><p class="t">오픈 전 권장, 늦어도 오픈 후 1개월</p></div>
+      <div><span class="chip sev-low">낮음</span><p>당장 문제는 없지만 나중에 고치는 비용을 올려요.</p><p class="t">안정화 기간</p></div>
+    </div>
+
+    <div class="filters no-print" role="group" aria-label="심각도로 거르기" style="margin-top:20px">
+      <button class="fchip" type="button" data-f="all" aria-pressed="true">전체 <span class="c">14</span></button>
+      <button class="fchip" type="button" data-f="crit" aria-pressed="false">치명 <span class="c">2</span></button>
+      <button class="fchip" type="button" data-f="high" aria-pressed="false">높음 <span class="c">5</span></button>
+      <button class="fchip" type="button" data-f="mid" aria-pressed="false">중간 <span class="c">5</span></button>
+      <button class="fchip" type="button" data-f="low" aria-pressed="false">낮음 <span class="c">2</span></button>
+    </div>
+    <p class="fcount no-print" id="fcount" aria-live="polite">14건을 모두 보고 있어요</p>
+
+    <div class="flist" id="flist">
+      <div class="f-row f-head" aria-hidden="true"><div>번호·영역</div><div>내용</div><div>심각도</div><div>고치는 방법</div><div style="text-align:right">공수</div><div>언제</div></div>
+
+      <div class="f-row" data-sev="crit">
+        <div class="f-id"><span class="mono">K-01</span><span>키 관리</span></div>
+        <div class="f-main"><p class="f-title">개인정보 암호화 키가 저장소 기록에 남아 있어요</p><p class="f-detail">지금 파일에서는 지웠지만 예전 커밋에 그대로 있어요. 소스를 받은 사람은 누구나 주소·전화번호를 풀 수 있어요.</p><p class="f-loc"><code>.env · 커밋 a3f9c1e</code></p></div>
+        <div class="f-sev"><span class="chip sev-crit">치명</span></div>
+        <div class="f-fix">운영용 키를 새로 만들고 기록에서 지워요. 실제 데이터가 아직 없어서 지금 바꾸면 다시 암호화할 것도 없어요. 키 사본은 대표님이 따로 보관해요.</div>
+        <div class="f-cost num">0.5<span class="unit">일</span></div>
+        <div class="f-when"><span class="when must">오픈 전 필수</span></div>
+      </div>
+
+      <div class="f-row" data-sev="crit">
+        <div class="f-id"><span class="mono">T-01</span><span>로그인 토큰</span></div>
+        <div class="f-main"><p class="f-title">토큰 서명 키에 기본값 'secret'이 들어 있어요</p><p class="f-detail">서버 설정에서 키가 빠지면 'secret'으로 켜져요. 이 값을 아는 사람은 관리자 토큰을 직접 만들 수 있어요.</p><p class="f-loc"><code>src/auth/jwt.strategy.ts:14</code></p></div>
+        <div class="f-sev"><span class="chip sev-crit">치명</span></div>
+        <div class="f-fix">키가 없으면 서버가 아예 켜지지 않게 바꾸고, 길고 무작위인 키를 써요.</div>
+        <div class="f-cost num">0.5<span class="unit">일</span></div>
+        <div class="f-when"><span class="when must">오픈 전 필수</span></div>
+      </div>
+
+      <div class="f-row" data-sev="high">
+        <div class="f-id"><span class="mono">T-02</span><span>로그인 토큰</span></div>
+        <div class="f-main"><p class="f-title">로그인 토큰이 7일 동안 살아 있고, 로그아웃해도 막히지 않아요</p><p class="f-detail">토큰을 브라우저 저장소에 둬요. 패드를 잃어버리거나 직원이 퇴사해도 7일 동안 접속돼요.</p><p class="f-loc"><code>src/auth/auth.service.ts</code></p></div>
+        <div class="f-sev"><span class="chip sev-high">높음</span></div>
+        <div class="f-fix">15분짜리 접속 토큰과 쿠키(httpOnly)에 담은 갱신 토큰으로 바꿔요. 계정을 끄면 바로 막혀요.</div>
+        <div class="f-cost num">2<span class="unit">일</span></div>
+        <div class="f-when"><span class="when must">오픈 전 필수</span></div>
+      </div>
+
+      <div class="f-row" data-sev="high">
+        <div class="f-id"><span class="mono">A-01</span><span>권한</span></div>
+        <div class="f-main"><p class="f-title">직원 목록 API가 모든 직원의 전화·이메일을 돌려줘요</p><p class="f-detail">로그인만 하면 팀과 관계없이 18명 전체 연락처가 내려와요. 화면에는 이름만 보여서 시험에서 드러나지 않았어요.</p><p class="f-loc"><code>GET /api/users</code></p></div>
+        <div class="f-sev"><span class="chip sev-high">높음</span></div>
+        <div class="f-fix">팀별 권한을 확인하고, 화면에 필요한 칸만 내보내요. 같은 방식으로 API 전체를 권한표와 맞춰 봐요.</div>
+        <div class="f-cost num">0.5<span class="unit">일</span></div>
+        <div class="f-when"><span class="when must">오픈 전 필수</span></div>
+      </div>
+
+      <div class="f-row" data-sev="high">
+        <div class="f-id"><span class="mono">C-01</span><span>CORS</span></div>
+        <div class="f-main"><p class="f-title">어느 사이트에서든 로그인 상태로 API를 부를 수 있어요</p><p class="f-detail">패드 접속 시험 때 '모든 주소 허용'으로 풀어 둔 설정이 그대로 있어요.</p><p class="f-loc"><code>src/main.ts · enableCors({ origin: true, credentials: true })</code></p></div>
+        <div class="f-sev"><span class="chip sev-high">높음</span></div>
+        <div class="f-fix">화면과 API를 같은 주소로 내보내 CORS가 필요 없게 해요. 꼭 필요하면 회사 주소 하나만 허용해요.</div>
+        <div class="f-cost num">0.5<span class="unit">일</span></div>
+        <div class="f-when"><span class="when must">오픈 전 필수</span></div>
+      </div>
+
+      <div class="f-row" data-sev="high">
+        <div class="f-id"><span class="mono">S-01</span><span>보안 기본</span></div>
+        <div class="f-main"><p class="f-title">로그인 시도 횟수 제한이 없어요</p><p class="f-detail">비밀번호를 계속 바꿔 넣어 볼 수 있어요.</p><p class="f-loc"><code>src/auth/auth.controller.ts</code></p></div>
+        <div class="f-sev"><span class="chip sev-high">높음</span></div>
+        <div class="f-fix">1분에 5번까지만 받고, 계속 틀리면 잠시 잠가요.</div>
+        <div class="f-cost num">0.5<span class="unit">일</span></div>
+        <div class="f-when"><span class="when must">오픈 전 필수</span></div>
+      </div>
+
+      <div class="f-row" data-sev="high">
+        <div class="f-id"><span class="mono">D-01</span><span>의존성</span></div>
+        <div class="f-main"><p class="f-title">Node 20을 쓰고 있어요 (2026년 4월 30일 지원 종료)</p><p class="f-detail">더 이상 보안 패치가 나오지 않아요. 종료 날짜는 Node.js 공식 일정에서 확인한 사실이에요.</p><p class="f-loc"><code>package.json · .nvmrc</code></p></div>
+        <div class="f-sev"><span class="chip sev-high">높음</span></div>
+        <div class="f-fix">Node 24 LTS(2028년 4월까지 지원)로 올리고 자체 시험 143건을 다시 돌려요.</div>
+        <div class="f-cost num">1<span class="unit">일</span></div>
+        <div class="f-when"><span class="when must">오픈 전 필수</span></div>
+      </div>
+
+      <div class="f-row" data-sev="mid">
+        <div class="f-id"><span class="mono">M-01</span><span>마이그레이션</span></div>
+        <div class="f-main"><p class="f-title">마이그레이션 기록 없이 db push로 DB를 맞춰 왔어요</p><p class="f-detail">서버 DB를 같은 구조로 만들 정확한 순서가 없어요. 나중에 칸을 바꾸면 운영 데이터가 지워질 수 있어요.</p><p class="f-loc"><code>prisma/migrations 폴더 없음</code></p></div>
+        <div class="f-sev"><span class="chip sev-mid">중간</span></div>
+        <div class="f-fix">지금 구조를 기준점으로 기록하고, 서버에는 migrate deploy만 쓰도록 자동 배포에 넣어요.</div>
+        <div class="f-cost num">0.5<span class="unit">일</span></div>
+        <div class="f-when"><span class="when must">오픈 전 필수</span></div>
+      </div>
+
+      <div class="f-row" data-sev="mid">
+        <div class="f-id"><span class="mono">Q-01</span><span>N+1 쿼리</span></div>
+        <div class="f-main"><p class="f-title">방문일지 목록 50건에 쿼리가 101번 나가요</p><p class="f-detail">반복문 안에서 고객사와 담당자를 한 건씩 다시 불러와요. 지금은 빠르지만 1년치가 쌓이면 느려져요.</p><p class="f-loc"><code>src/visit-log/visit-log.service.ts:62</code></p></div>
+        <div class="f-sev"><span class="chip sev-mid">중간</span></div>
+        <div class="f-fix">관계 데이터를 한 번에 가져오고, 목록에 페이지 나누기를 넣어요.</div>
+        <div class="f-cost num">0.5<span class="unit">일</span></div>
+        <div class="f-when"><span class="when">오픈 전 권장</span></div>
+      </div>
+
+      <div class="f-row" data-sev="mid">
+        <div class="f-id"><span class="mono">Q-02</span><span>인덱스</span></div>
+        <div class="f-main"><p class="f-title">관계 칸 21곳에 인덱스가 없어요</p><p class="f-detail">PostgreSQL은 외래키 칸에 인덱스를 자동으로 만들지 않아요. 가짜 데이터 1만 건에서 고객사별 이슈 조회가 1.8초 걸렸어요.</p><p class="f-loc"><code>prisma/schema.prisma</code></p></div>
+        <div class="f-sev"><span class="chip sev-mid">중간</span></div>
+        <div class="f-fix">자주 찾는 칸에 인덱스를 더하고 다시 재요.</div>
+        <div class="f-cost num">0.5<span class="unit">일</span></div>
+        <div class="f-when"><span class="when">오픈 전 권장</span></div>
+      </div>
+
+      <div class="f-row" data-sev="mid">
+        <div class="f-id"><span class="mono">E-01</span><span>에러 처리</span></div>
+        <div class="f-main"><p class="f-title">DB 오류가 그대로 '서버 오류'로 나가고, 응답에 테이블 이름이 보여요</p><p class="f-detail">같은 장비 번호를 두 번 넣으면 이유 없이 실패하고, 개발자 도구에서 내부 정보가 보여요.</p><p class="f-loc"><code>전역 예외 필터 없음</code></p></div>
+        <div class="f-sev"><span class="chip sev-mid">중간</span></div>
+        <div class="f-fix">Prisma 오류 코드를 안내 문구로 바꾸는 필터를 하나 두고, 운영에서는 내부 정보를 숨겨요.</div>
+        <div class="f-cost num">0.5<span class="unit">일</span></div>
+        <div class="f-when"><span class="when">오픈 전 권장</span></div>
+      </div>
+
+      <div class="f-row" data-sev="mid">
+        <div class="f-id"><span class="mono">L-01</span><span>접속기록</span></div>
+        <div class="f-main"><p class="f-title">누가 어떤 고객의 개인정보를 봤는지 기록이 없어요</p><p class="f-detail">개인정보 안전성 확보조치 기준 제8조는 접속기록을 1년 이상 보관하라고 해요. 이 시스템에 어떻게 적용되는지는 확인이 필요해요.</p></div>
+        <div class="f-sev"><span class="chip sev-mid">중간</span></div>
+        <div class="f-fix">고객 연락처 조회와 내려받기를 기록하는 테이블을 두고 1년 보관해요.</div>
+        <div class="f-cost num">1<span class="unit">일</span></div>
+        <div class="f-when"><span class="when">오픈 전 권장</span></div>
+      </div>
+
+      <div class="f-row" data-sev="low">
+        <div class="f-id"><span class="mono">D-02</span><span>의존성</span></div>
+        <div class="f-main"><p class="f-title">prisma@latest로 설치하면 8.0 정식 전 버전이 깔려요</p><p class="f-detail">10월 21일 npm에서 latest 표시가 8.0.0-rc.24를 가리키는 걸 실제로 확인했어요. 설치할 때마다 버전이 달라질 수 있어요.</p><p class="f-loc"><code>README 설치 안내</code></p></div>
+        <div class="f-sev"><span class="chip sev-low">낮음</span></div>
+        <div class="f-fix">버전을 정확히 고정하고, 서버에서는 lock 파일 그대로 설치해요(npm ci).</div>
+        <div class="f-cost num">0.5<span class="unit">일</span></div>
+        <div class="f-when"><span class="when">오픈 전 권장</span></div>
+      </div>
+
+      <div class="f-row" data-sev="low">
+        <div class="f-id"><span class="mono">A-02</span><span>AI 코드 정리</span></div>
+        <div class="f-main"><p class="f-title">같은 날짜 변환 함수가 7곳에 따로 있어요</p><p class="f-detail">조금씩 달라서 한 곳만 고치면 화면마다 날짜가 달라질 수 있어요. 쓰이지 않는 파일도 38개 있어요.</p><p class="f-loc"><code>web/src/utils/ 외 6곳</code></p></div>
+        <div class="f-sev"><span class="chip sev-low">낮음</span></div>
+        <div class="f-fix">하나로 모으고 한국 시간 기준 시험을 더해요. 안 쓰는 파일은 지워요.</div>
+        <div class="f-cost num">1<span class="unit">일</span></div>
+        <div class="f-when"><span class="when">안정화 기간</span></div>
+      </div>
+
+      <div class="f-empty" id="fempty" hidden>이 심각도의 발견 사항은 없어요. <button class="fchip" type="button" data-f="all" style="margin-left:8px">전체 보기</button></div>
+    </div>
+  </section>
+
+  <!-- 우선순위와 공수 -->
+  <section class="sec" aria-labelledby="p-h">
+    <div class="sec-head">
+      <div>
+        <h2 id="p-h">고치는 순서와 공수</h2>
+        <p class="sec-desc">반나절 단위로 적어요. 제안서의 ② 서버 구축(6일)과 ③ 보안 보완(8일) 안에 들어가고, 넘치면 먼저 여쭤보고 정해요.</p>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card s5">
+        <h3>언제 고치나</h3>
+        <ul class="prio" style="margin-top:12px">
+          <li><div class="prio-top"><b>오픈 전 필수 · 8건</b><span class="num">6<span class="unit">일</span></span></div><div class="bar main"><i style="width:60%"></i></div><p>치명·높음 전부와 마이그레이션 기준점</p></li>
+          <li><div class="prio-top"><b>오픈 전 권장 · 5건</b><span class="num">3<span class="unit">일</span></span></div><div class="bar"><i style="width:30%"></i></div><p>느려짐 대비, 오류 문구, 접속기록, 버전 고정</p></li>
+          <li><div class="prio-top"><b>안정화 기간 · 1건</b><span class="num">1<span class="unit">일</span></span></div><div class="bar"><i style="width:10%"></i></div><p>중복 코드 정리 (오픈 후 3개월 안에)</p></li>
+        </ul>
+        <p class="note">합계 14건 · 10일 (예시)</p>
+      </div>
+      <div class="card s7">
+        <h3>오픈 전 필수 8건은 이 순서로 고쳐요</h3>
+        <ol class="order" style="margin-top:8px">
+          <li><span class="k">1</span><div>키부터 바꿔요 <small>K-01, T-01 · 다른 수정이 새 키 위에서 이뤄지게</small></div></li>
+          <li><span class="k">2</span><div>문을 닫아요 <small>A-01, C-01, S-01 · 권한, CORS, 로그인 시도 제한</small></div></li>
+          <li><span class="k">3</span><div>토큰 방식을 바꿔요 <small>T-02 · 가장 큰 작업이라 따로 시험 기간을 둬요</small></div></li>
+          <li><span class="k">4</span><div>버전을 올려요 <small>D-01 · Node 24 LTS, 올린 뒤 시험 143건 다시 실행</small></div></li>
+          <li><span class="k">5</span><div>배포 순서를 고정해요 <small>M-01 · 서버에는 기록된 마이그레이션만 적용</small></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 결정 -->
+  <section class="sec" aria-labelledby="a-h">
+    <div class="sec-head">
+      <div>
+        <h2 id="a-h">결정해 주실 것</h2>
+        <p class="sec-desc">2주차 서버 구축 전에 정하면 좋은 것들이에요.</p>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card s7">
+        <ul class="ask">
+          <li><b>회사 메일이 Google Workspace인가요?</b><p>구글 캘린더 연동 앱을 '테스트' 상태로 두면 연결이 7일마다 끊겨요(구글 공식 문서). Workspace라면 '내부 앱'으로 설정해 구글 검수 없이 쓸 수 있어요.</p></li>
+          <li><b>현장 패드를 여러 직원이 같이 쓰나요?</b><p>같이 쓰면 자동 로그아웃 시간을 짧게 정해야 해요.</p></li>
+          <li><b>메일은 어느 계정으로 보낼까요?</b><p>회사 메일 계정으로 보낼지, 발송 서비스를 쓸지 정해요. 스팸함에 안 들어가게 도메인 설정(SPF·DKIM)도 함께 해요.</p></li>
+        </ul>
+      </div>
+      <div class="card s5 top">
+        <ul class="ask">
+          <li><b>도메인</b><p>회사 도메인이 있으면 하위 주소(예: field.회사도메인)로 추가 비용 없이 써요.</p></li>
+          <li><b>기존 자료</b><p>파일 형식과 대략의 건수를 알려 주시면 이관 리허설을 미리 해 봐요.</p></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>제이에스 오퍼레이션 · 인수·검수 보고서 예시 형식</span>
+    <span>실제 보고서는 착수 1주차 금요일에 이 형식으로 드려요.</span>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var chips = document.querySelectorAll('.fchip[data-f]');
+  var rows = document.querySelectorAll('.f-row[data-sev]');
+  var count = document.getElementById('fcount');
+  var empty = document.getElementById('fempty');
+  var names = {crit:'치명', high:'높음', mid:'중간', low:'낮음'};
+  function apply(f){
+    var shown = 0;
+    rows.forEach(function(r){ var on = (f === 'all' || r.dataset.sev === f); r.hidden = !on; if(on) shown++; });
+    document.querySelectorAll('.filters .fchip').forEach(function(c){ c.setAttribute('aria-pressed', c.dataset.f === f ? 'true' : 'false'); });
+    empty.hidden = shown !== 0;
+    count.textContent = f === 'all' ? '14건을 모두 보고 있어요' : names[f] + ' ' + shown + '건만 보고 있어요';
+  }
+  chips.forEach(function(c){ c.addEventListener('click', function(){ apply(c.dataset.f); }); });
+  document.getElementById('printBtn').addEventListener('click', function(){ window.print(); });
+  window.addEventListener('beforeprint', function(){ apply('all'); });
+})();
+</script>
+</body>
+</html>
